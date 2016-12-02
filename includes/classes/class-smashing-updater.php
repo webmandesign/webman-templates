@@ -404,8 +404,9 @@ class Smashing_Updater {
 				$wp_filesystem->move( $result['destination'], $install_directory );
 
 				// Make sure we don't change our plugin directory name
-				$result['destination']      = $install_directory;
-				$result['destination_name'] = current( explode('/', $this->basename ) );
+				$result['destination']        = $install_directory;
+				$result['remote_destination'] = $install_directory;
+				$result['destination_name']   = current( explode('/', $this->basename ) );
 
 				// Reactivate the plugin if it was active
 				if ( $this->active ) {
