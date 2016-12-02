@@ -410,9 +410,9 @@ class Smashing_Updater {
 				// Reactivate the plugin if it was active
 				if ( $this->active ) {
 					if ( is_multisite() ) {
-						activate_plugin( $plugin->basename, null, true );
+						activate_plugin( $this->basename, null, true );
 					} else {
-						activate_plugin( $plugin->basename );
+						activate_plugin( $this->basename );
 					}
 				}
 
