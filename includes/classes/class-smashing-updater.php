@@ -9,7 +9,7 @@
  * - improved code formatting
  * - `plugin_popup()` data
  * - `is_null` in `get_repository_info()` changed to `empty` and safely parsing JSON
- * - `modify_transient()` improved
+ * - `modify_transient()` improved and made compatible with WordPress multisite
  * - fixing `after_install()` destination folder
  *
  * @link  https://www.smashingmagazine.com/2015/08/deploy-wordpress-plugins-with-github-using-transients/
@@ -103,10 +103,10 @@ class Smashing_Updater {
 
 
 	public function modify_transient( $transient ) {
-		if ( isset( $transient->checked ) && $checked = $transient->checked ) { // Did Wordpress check for updates?
+		if ( isset( $transient->last_checked ) && $transient->last_checked ) { // Did WordPress check for updates? Compatible with multisite.
 			$this->get_repository_info(); // Get the repo info
 
-			$out_of_date = version_compare( $this->github_response['tag_name'], $checked[ $this->basename ], 'gt' ); // Check if we're out of date
+			$out_of_date = version_compare( $this->github_response['tag_name'], $this->plugin['Version'], 'gt' ); // Check if we're out of date
 
 			if ( $out_of_date ) {
 				$new_files = $this->github_response['zipball_url']; // Get the ZIP
