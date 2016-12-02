@@ -2,10 +2,10 @@
 
 Provides a collection of custom [**Beaver Builder** page builder](https://www.wpbeaverbuilder.com/) templates for WordPress themes by [WebMan Design](https://www.webmandesign.eu).
 
-## Requirements
+## Description
 
-* Your theme must declare the support for the plugin
-* The theme can declare support for global templates, otherwise the theme specific templates are going to added only
+* The theme must declare support for the plugin with `add_theme_support( 'webman-templates' );`
+* The theme can declare support for global templates (with `add_theme_support( 'webman-templates-global' );`), otherwise the theme specific templates are going to added only
 * Template featured images are located inside the plugin, so no calls to external URLs are made
 
 ## Versioning info

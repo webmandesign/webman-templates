@@ -9,7 +9,7 @@
  * Contents:
  *
  *  0) Init
- * 10) Featured images
+ * 10) Thumbnails
  */
 class WebMan_Templates {
 
@@ -35,7 +35,10 @@ class WebMan_Templates {
 
 			// Requirements check
 
-				if ( ! is_callable( 'FLBuilder::register_templates' ) ) {
+				if (
+						! is_callable( 'FLBuilder::register_templates' )
+						|| ! current_theme_supports( 'webman-templates' )
+					) {
 					return;
 				}
 
@@ -44,7 +47,7 @@ class WebMan_Templates {
 
 				$templates_path = trailingslashit( WMTEMPLATES_PATH . 'templates' );
 
-				$global_template_files = array( '/templates.dat' );
+				$global_template_files = array( 'templates.dat' );
 				$theme_template_files  = array_filter( (array) apply_filters( 'wmhook_webman_templates_theme_template_path', array() ) );
 
 
@@ -69,7 +72,7 @@ class WebMan_Templates {
 					// Global templates
 
 						if (
-								current_theme_supports( 'webman-templates-global' );
+								current_theme_supports( 'webman-templates-global' )
 								&& ! empty( $global_template_files )
 							) {
 							foreach ( $global_template_files as $path ) {
@@ -82,6 +85,12 @@ class WebMan_Templates {
 
 							}
 						}
+
+				// Hooks
+
+					// Filters
+
+						add_filter( 'fl_builder_template_selector_data', __CLASS__ . '::thumbnail_path', 10, 2 );
 
 		} // /__construct
 
@@ -113,25 +122,59 @@ class WebMan_Templates {
 
 
 	/**
-	 * 10) Featured images
+	 * 10) Thumbnails
 	 */
 
 		/**
-		 * Template featured image path
+		 * Template thumbnail path
 		 *
 		 * @since    1.0
 		 * @version  1.0
 		 *
-		 * @param  string $path           Path to folder with template featured images.
-		 * @param  string $template_file  Template file being processed.
+		 * @param  array  $template_data
+		 * @param  object $template
 		 */
-		public static function featured_image_path( $path, $template_file ) {
+		public static function thumbnail_path( $template_data, $template ) {
+
+			// Helper variables
+
+				$path = trailingslashit( WMTEMPLATES_URL . 'templates/' . WMTEMPLATES_THEME );
+				$categories = implode( '|', array_keys( (array) $template_data['category'] ) );
+
+
+			// Processing
+
+				if (
+						false !== stripos( $categories, 'theme-' )
+						|| false !== stripos( $categories, 'wm-' )
+					) {
+
+					if ( $template->image ) {
+
+						/**
+						 * Put the Template thumbnails into the `templates/THEME_SLUG/thumbnail/` folder.
+						 * Best image size is 256 px wide, the height is up to you.
+						 */
+						$template_data['image'] = $path . 'thumbs/' . $template->image;
+
+					} else {
+
+						/**
+						 * This image will not be displayed.
+						 * That's how Beaver Builder treats `blank.jpg` in its interface.
+						 */
+						$template_data['image'] = $path . 'thumbnail/blank.jpg';
+
+					}
+
+				}
+
 
 			// Output
 
-				return trailingslashit( WMTEMPLATES_URL . 'templates/' . WMTEMPLATES_THEME );
+				return $template_data;
 
-		} // /featured_image_path
+		} // /thumbnail_path
 
 
 
@@ -139,4 +182,4 @@ class WebMan_Templates {
 
 } // /WebMan_Templates
 
-add_action( 'after_setup_theme', 'WebMan_Templates::init' );
+add_action( 'init', 'WebMan_Templates::init' );

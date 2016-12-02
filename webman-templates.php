@@ -4,7 +4,7 @@
  * Plugin Name:        WebMan Templates
  * Plugin URI:         https://github.com/webmandesign/webman-tempates
  * Description:        Adding predefined custom Beaver Builder page builder templates.
- * Version:            0.1.0
+ * Version:            0.2.0
  * Author:             WebMan Design - Oliver Juhas
  * Author URI:         https://www.webmandesign.eu
  * License:            GNU General Public License v3
@@ -29,10 +29,7 @@
 
 // Requirements check
 
-	if (
-			! class_exists( 'FLBuilder' )
-			|| ! current_theme_supports( 'webman-templates' )
-		) {
+	if ( ! class_exists( 'FLBuilder' ) ) {
 		return;
 	}
 
@@ -51,10 +48,12 @@
 
 // Load functionality
 
-	require_once WMTEMPLATES_PATH . 'includes/updater.php';
+	require_once WMTEMPLATES_PATH . 'includes/classes/class-webman-templates.php';
 
-	$template_setup_file_path = trailingslashit( WMTEMPLATES_PATH . 'templates/' . WMTEMPLATES_THEME ) . 'setup.php'
+	$template_setup_file_path = trailingslashit( WMTEMPLATES_PATH . 'templates/' . WMTEMPLATES_THEME ) . 'setup.php';
 
 	if ( file_exists( $template_setup_file_path ) ) {
 		require_once $template_setup_file_path;
 	}
+
+	require_once WMTEMPLATES_PATH . 'includes/updater.php';
