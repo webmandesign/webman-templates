@@ -5,7 +5,12 @@
  *
  * From "How To Deploy WordPress Plugins With GitHub Using Transients" article at SmashingMagazine.com.
  * Versioning is based on the date the code was taken from the repository.
- * The code is modified a bit: improved code formatting.
+ * The code is modified a bit:
+ * - improved code formatting
+ * - `plugin_popup()` data
+ * - `is_null` in `get_repository_info()` changed to `empty` and safely parsing JSON
+ * - `modify_transient()` improved
+ * - fixing `after_install()` destination folder
  *
  * @link  https://www.smashingmagazine.com/2015/08/deploy-wordpress-plugins-with-github-using-transients/
  * @link  https://github.com/rayman813/smashing-updater-plugin
@@ -36,9 +41,9 @@ class Smashing_Updater {
 
 
 	public function set_plugin_properties() {
-		$this->plugin	= get_plugin_data( $this->file );
+		$this->plugin   = get_plugin_data( $this->file );
 		$this->basename = plugin_basename( $this->file );
-		$this->active	= is_plugin_active( $this->basename );
+		$this->active   = is_plugin_active( $this->basename );
 	}
 
 
@@ -62,14 +67,18 @@ class Smashing_Updater {
 
 
 	private function get_repository_info() {
-		if ( is_null( $this->github_response ) ) { // Do we have a response?
+		if ( empty( $this->github_response ) ) { // Do we have a response?
 			$request_uri = sprintf( 'https://api.github.com/repos/%s/%s/releases', $this->username, $this->repository ); // Build URI
 
 			if ( $this->authorize_token ) { // Is there an access token?
 				$request_uri = add_query_arg( 'access_token', $this->authorize_token, $request_uri ); // Append it
 			}
 
-			$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $request_uri ) ), true ); // Get JSON and parse it
+			$response = wp_remote_retrieve_body( wp_remote_get( $request_uri ) ); // Get JSON
+
+			if ( ! empty( $response ) ) {
+				$response = json_decode( $response, true ); // Parse JSON
+			}
 
 			if ( is_array( $response ) ) { // If it is an array
 				$response = current( $response ); // Get the first item
@@ -94,26 +103,24 @@ class Smashing_Updater {
 
 
 	public function modify_transient( $transient ) {
-		if ( property_exists( $transient, 'checked') ) { // Check if transient has a checked property
-			if ( $checked = $transient->checked ) { // Did Wordpress check for updates?
-				$this->get_repository_info(); // Get the repo info
+		if ( isset( $transient->checked ) && $checked = $transient->checked ) { // Did Wordpress check for updates?
+			$this->get_repository_info(); // Get the repo info
 
-				$out_of_date = version_compare( $this->github_response['tag_name'], $checked[ $this->basename ], 'gt' ); // Check if we're out of date
+			$out_of_date = version_compare( $this->github_response['tag_name'], $checked[ $this->basename ], 'gt' ); // Check if we're out of date
 
-				if ( $out_of_date ) {
-					$new_files = $this->github_response['zipball_url']; // Get the ZIP
+			if ( $out_of_date ) {
+				$new_files = $this->github_response['zipball_url']; // Get the ZIP
 
-					$slug = current( explode('/', $this->basename ) ); // Create valid slug
+				$slug = current( explode('/', $this->basename ) ); // Create valid slug
 
-					$plugin = array( // setup our plugin info
-						'url' => $this->plugin["PluginURI"],
-						'slug' => $slug,
-						'package' => $new_files,
-						'new_version' => $this->github_response['tag_name']
-					);
+				$plugin = array( // setup our plugin info
+					'url'         => $this->plugin["PluginURI"],
+					'slug'        => $slug,
+					'package'     => $new_files,
+					'new_version' => $this->github_response['tag_name']
+				);
 
-					$transient->response[$this->basename] = (object) $plugin; // Return it in response
-				}
+				$transient->response[$this->basename] = (object) $plugin; // Return it in response
 			}
 		}
 
@@ -131,12 +138,8 @@ class Smashing_Updater {
 				$plugin = array(
 					'name'              => $this->plugin["Name"],
 					'slug'              => $this->basename,
-					'requires'          => '3.3',
-					'tested'            => '4.4.1',
-					'rating'            => '100.0',
-					'num_ratings'       => '10823',
-					'downloaded'        => '14249',
-					'added'             => '2016-01-05',
+					'requires'          => '4.5',
+					'tested'            => '4.7',
 					'version'           => $this->github_response['tag_name'],
 					'author'            => $this->plugin["AuthorName"],
 					'author_profile'    => $this->plugin["AuthorURI"],
@@ -165,6 +168,7 @@ class Smashing_Updater {
 		$install_directory = plugin_dir_path( $this->file ); // Our plugin directory
 		$wp_filesystem->move( $result['destination'], $install_directory ); // Move files to the plugin dir
 		$result['destination'] = $install_directory; // Set the destination for the rest of the stack
+		$result['destination_name'] = current( explode('/', $this->basename ) );
 
 		if ( $this->active ) { // If it was active
 			activate_plugin( $this->basename ); // Reactivate
