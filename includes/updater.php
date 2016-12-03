@@ -36,10 +36,6 @@ if ( class_exists( 'Fragen\\GitHub_Updater\\Base' ) ) {
  * We need an admin notice for multisite network plugin activation
  */
 
-	require_once WMTEMPLATES_PATH . 'includes/vendor/persist-admin-notices-dismissal/persist-admin-notices-dismissal.php';
-
-	add_action( 'admin_init', array( 'PAnD', 'init' ) );
-
 	/**
 	 * Admin notice for multisite network plugin activation
 	 *
@@ -65,30 +61,33 @@ if ( class_exists( 'Fragen\\GitHub_Updater\\Base' ) ) {
 				return;
 			}
 
-			if ( ! PAnD::is_admin_notice_active( 'webman-templates-notice-updater-forever' ) ) {
-				return;
+
+		// Helper variables
+
+			$output = '';
+
+
+		// Processing
+
+			$output .= '<p style="margin: 1em;">';
+
+			$output .= 'WARNING: <strong>WebMan Templates</strong> plugin has to be activated network wide to receive automatic plugin updates. ';
+
+			if ( current_user_can( 'manage_network_plugins' ) ) {
+				$output .= '<a href="' . esc_url( network_admin_url( 'plugins.php' ) ) . '" class="button button-primary" style="margin: 0 1em;">Activate the plugin network wide &raquo;</a> ';
+			} else {
+				$output .= 'Please, <strong>contact your WordPress network administrator to activate the plugin</strong> for you! ';
 			}
+
+			$output .= '<br><em>Alternatively you can also install a <a href="https://github.com/afragen/github-updater/wiki/Installation" target="_blank"><strong>Github Updater</strong> plugin</a> to manage <strong>WebMan Templates</strong> automatic updates.</em> ';
+
+			$output .= '</p>';
 
 
 		// Output
 
-			?>
-
-			<div data-dismissible="webman-templates-notice-updater-forever" class="wm-notice notice error notice-error is-dismissible">
-				<p style="margin: 1em;">
-					WARNING: <strong>WebMan Templates</strong> plugin has to be activated network wide to receive automatic plugin updates.
-					<?php if ( current_user_can( 'manage_network_plugins' ) ) : ?>
-					<a href="<?php echo esc_url( network_admin_url( 'plugins.php' ) ); ?>" class="button button-primary" style="margin: 0 1em;">Activate the plugin network wide &raquo;</a>
-					<?php else : ?>
-					Please, <strong>contact your WordPress network administrator to activate the plugin</strong> for you!
-					<?php endif; ?>
-					<br>
-					<em>Alternatively you can also install a <a href="https://github.com/afragen/github-updater/wiki/Installation" target="_blank"><strong>Github Updater</strong> plugin</a> to manage <strong>WebMan Templates</strong> automatic updates.</em>
-				</p>
-			</div>
-
-			<?php
+			echo WebMan_Templates::notice( $output, 'updater', 'error notice-error' );
 
 	} // /webman_templates_admin_notice_updater
 
-	add_action( 'admin_notices', 'webman_templates_admin_notice_updater' );
+	add_action( 'admin_notices', 'webman_templates_admin_notice_updater', 5 );
