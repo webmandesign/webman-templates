@@ -164,6 +164,11 @@ header {
   -webkit-font-smoothing:subpixel-antialiased;
 }
 
+header .intro {
+  font-size: 1.19em;
+  font-style: italic;
+}
+
 header .btn {
   display: block;
   padding: 1em;
