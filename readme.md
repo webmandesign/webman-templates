@@ -6,7 +6,7 @@ A WordPress plugin that provides a collection of custom [**Beaver Builder** page
 
 Usually this plugin can be automatically installed after you activate a compatible WordPress theme (via [TGM Plugin Activation](http://tgmpluginactivation.com/) script). Alternatively, you can install the plugin manually:
 
-1. Download the latest plugin ZIP file attached to every new [plugin release](/releases).
+1. Download the latest plugin ZIP file attached to every new [plugin release](https://github.com/webmandesign/webman-templates/releases).
 2. In your WordPress dashboard navigate to the **Plugins &rarr; Add New** screen and click the **Upload** tab.
 3. Upload the ZIP file.
 4. Navigate to the **Plugins** screen and activate the WebMan Templates plugin.
