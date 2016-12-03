@@ -95,7 +95,7 @@ class WebMan_Templates {
 
 					// Filters
 
-						add_filter( 'fl_builder_template_selector_data', __CLASS__ . '::thumbnail_path', 10, 2 );
+						add_filter( 'fl_builder_template_selector_data', __CLASS__ . '::thumbnail_src', 10, 2 );
 
 		} // /__construct
 
@@ -131,7 +131,7 @@ class WebMan_Templates {
 	 */
 
 		/**
-		 * Template thumbnail path
+		 * Template thumbnail source
 		 *
 		 * If you want to use local plugin template thumbnails, make sure
 		 * your Templates posts are organized into categories which slug
@@ -145,24 +145,26 @@ class WebMan_Templates {
 		 * @param  array  $template_data
 		 * @param  object $template
 		 */
-		public static function thumbnail_path( $template_data, $template ) {
+		public static function thumbnail_src( $template_data, $template ) {
 
 			// Helper variables
 
-				$path       = trailingslashit( WMTEMPLATES_URL . 'templates/' . WMTEMPLATES_THEME );
+				$path       = trailingslashit( WMTEMPLATES_PATH . 'templates/' . WMTEMPLATES_THEME );
+				$url_base   = trailingslashit( WMTEMPLATES_URL . 'templates/' . WMTEMPLATES_THEME );
 				$categories = implode( '|', array_keys( (array) $template_data['category'] ) );
+				$extensions = array_filter( (array) apply_filters( 'webman_templates/thumbnail_extension', array( 'jpg', 'png' ) ) );
 
 
 			// Processing
 
 				if (
-						false !== stripos( $categories, 'theme-' )
-						|| false !== stripos( $categories, 'wm-' )
+						false !== stripos( $categories, 'wm-' )
+						|| false !== stripos( $categories, 'theme-' )
 					) {
 
 					if ( $template->image ) {
 
-						$template_data['image'] = $path . 'thumbs/' . $template->image;
+						$template_data['image'] = $url_base . 'thumbs/' . $template->image;
 
 					} else {
 
@@ -170,7 +172,22 @@ class WebMan_Templates {
 						 * This image will not be displayed.
 						 * That's how Beaver Builder treats `blank.jpg` in its interface.
 						 */
-						$template_data['image'] = $path . 'thumbnail/blank.jpg';
+						$template_data['image'] = $url_base . 'thumbnail/blank.jpg';
+
+						/**
+						 * Or, use thumbnail named as template slug, if it exists.
+						 */
+						if ( isset( $template->slug ) && $template->slug ) {
+							foreach ( $extensions as $extension ) {
+
+								$image_file = 'thumbs/' . $template->slug . '.' . preg_replace( '/[^A-Za-z]/', '', $extension );
+
+								if ( file_exists( $path . $image_file ) ) {
+									$template_data['image'] = $url_base . $image_file;
+								}
+
+							}
+						}
 
 					}
 
@@ -181,7 +198,7 @@ class WebMan_Templates {
 
 				return $template_data;
 
-		} // /thumbnail_path
+		} // /thumbnail_src
 
 
 
