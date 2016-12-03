@@ -48,7 +48,7 @@ class WebMan_Templates {
 				$templates_path = trailingslashit( WMTEMPLATES_PATH . 'templates' );
 
 				$global_template_files = array( 'templates.dat' );
-				$theme_template_files  = array_filter( (array) apply_filters( 'wmhook_webman_templates_theme_template_path', array() ) );
+				$theme_template_files  = array_filter( (array) apply_filters( 'webman_templates/theme_template_files', array() ) );
 
 
 			// Processing
@@ -75,7 +75,7 @@ class WebMan_Templates {
 								current_theme_supports( 'webman-templates-global' )
 								&& ! empty( $global_template_files )
 							) {
-							foreach ( $global_template_files as $path ) {
+							foreach ( $global_template_files as $file ) {
 
 								$file = trailingslashit( $templates_path . '_global' ) . $file;
 
@@ -128,6 +128,12 @@ class WebMan_Templates {
 		/**
 		 * Template thumbnail path
 		 *
+		 * If you want to use local plugin template thumbnails, make sure
+		 * your Templates posts are organized into categories which slug
+		 * starts with `wm-` or `theme-` prefix.
+		 * Then put the thumbnails into `templates/THEME_SLUG/thumbs/` folder.
+		 * Best thumbnail image size is 256 px wide, the height is up to you.
+		 *
 		 * @since    1.0
 		 * @version  1.0
 		 *
@@ -138,7 +144,7 @@ class WebMan_Templates {
 
 			// Helper variables
 
-				$path = trailingslashit( WMTEMPLATES_URL . 'templates/' . WMTEMPLATES_THEME );
+				$path       = trailingslashit( WMTEMPLATES_URL . 'templates/' . WMTEMPLATES_THEME );
 				$categories = implode( '|', array_keys( (array) $template_data['category'] ) );
 
 
@@ -151,10 +157,6 @@ class WebMan_Templates {
 
 					if ( $template->image ) {
 
-						/**
-						 * Put the Template thumbnails into the `templates/THEME_SLUG/thumbnail/` folder.
-						 * Best image size is 256 px wide, the height is up to you.
-						 */
 						$template_data['image'] = $path . 'thumbs/' . $template->image;
 
 					} else {

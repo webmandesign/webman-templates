@@ -2,6 +2,9 @@
 
 /**
  * Theme templates setup
+ *
+ * @since    1.0
+ * @version  1.0
  */
 function webman_templates_monument_valley() {
 
@@ -15,4 +18,4 @@ function webman_templates_monument_valley() {
 
 } // /webman_templates_monument_valley
 
-add_filter( 'wmhook_webman_templates_theme_template_path', 'webman_templates_monument_valley' );
+add_filter( 'webman_templates/theme_template_files', 'webman_templates_monument_valley' );
