@@ -1,12 +1,14 @@
 # WebMan Templates
 
+Visit https://webmandesign.github.io/webman-templates.
+
 A WordPress plugin that provides a collection of custom [**Beaver Builder** page builder](https://www.wpbeaverbuilder.com/) templates for WordPress themes by [WebMan Design](https://www.webmandesign.eu). Allows convenient and fast way of managing custom template updates without a need to update the compatible themes themselves. The plugin only serves additional custom templates to Beaver Builder page builder interface, thus it is not slowing down your website at all.
 
 ## Plugin istallation
 
 Usually this plugin can be automatically installed after you activate a compatible WordPress theme (via [TGM Plugin Activation](http://tgmpluginactivation.com/) script). Alternatively, you can install the plugin manually:
 
-1. Download the [latest plugin ZIP file](https://github.com/webmandesign/webman-templates/downloads).
+1. Download the [latest plugin ZIP file](http://webmandesign.github.io/webman-templates/downloads/webman-templates.zip).
 2. In your WordPress dashboard navigate to the **Plugins &rarr; Add New** screen and click the **Upload** tab.
 3. Upload the ZIP file.
 4. Navigate to the **Plugins** screen and activate the WebMan Templates plugin.
@@ -20,7 +22,7 @@ Once you install the plugin, it should receive updates automatically. You just *
 * **Multisite WordPress installation (network)**:  
   In this case you need to activate the plugin for the whole network of your WordPress sites. Otherwise the plugin automatic updates will not work. You will be notified about this if you accidentally activate the plugin for a single site in your network only. The plugin only works on sites that use a compatible themes.
 
-This plugin is also compatible with [**Github Updater** plugin](https://github.com/afragen/github-updater/wiki/Installation), so if you have Github Updater installed and active, the WebMan Templates plugin will be updated automatically as well. (This may be even better solution for WordPress multisite installations.)
+This plugin is also compatible with [**GitHub Updater** plugin](https://github.com/afragen/github-updater/wiki/Installation), so if you have GitHub Updater installed and active, the WebMan Templates plugin will be updated automatically as well. (This may be even better solution for WordPress multisite installations.)
 
 ## WordPress theme integration
 
