@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>WebMan Templates by webmandesign</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>WebMan Templates</h1>
+        <p>A WordPress plugin adding custom templates into Beaver Builder page builder plugin.</p>
+
+        <p class="view"><a href="https://github.com/webmandesign/webman-templates">View the Project on GitHub <small>webmandesign/webman-templates</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/webmandesign/webman-templates/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/webmandesign/webman-templates/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/webmandesign/webman-templates">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>A WordPress plugin that provides a collection of custom <a href="https://www.wpbeaverbuilder.com/"><strong>Beaver Builder</strong> page builder</a> templates for WordPress themes by <a href="https://www.webmandesign.eu">WebMan Design</a>. Allows convenient and fast way of managing custom template updates without a need to update the compatible themes themselves. The plugin only serves additional custom templates to Beaver Builder page builder interface, thus it is not slowing down your website at all.</p>
+
+<h2>
+<a id="plugin-istallation" class="anchor" href="#plugin-istallation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plugin istallation</h2>
+
+<p>Usually this plugin can be automatically installed after you activate a compatible WordPress theme (via <a href="http://tgmpluginactivation.com/">TGM Plugin Activation</a> script). Alternatively, you can install the plugin manually:</p>
+
+<ol>
+<li>Download the <a href="https://github.com/webmandesign/webman-templates/downloads">latest plugin ZIP file</a>.</li>
+<li>In your WordPress dashboard navigate to the <strong>Plugins → Add New</strong> screen and click the <strong>Upload</strong> tab.</li>
+<li>Upload the ZIP file.</li>
+<li>Navigate to the <strong>Plugins</strong> screen and activate the WebMan Templates plugin.</li>
+</ol>
+
+<h2>
+<a id="automatic-plugin-updates" class="anchor" href="#automatic-plugin-updates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Automatic plugin updates</h2>
+
+<p>Once you install the plugin, it should receive updates automatically. You just <strong>need to activate the plugin</strong> to enable the automatic updates:</p>
+
+<ul>
+<li>
+<strong>Standard WordPress installation (single-site)</strong>:<br>
+Just install and activate the plugin. You will receive a new plugin updates automatically.</li>
+<li>
+<strong>Multisite WordPress installation (network)</strong>:<br>
+In this case you need to activate the plugin for the whole network of your WordPress sites. Otherwise the plugin automatic updates will not work. You will be notified about this if you accidentally activate the plugin for a single site in your network only. The plugin only works on sites that use a compatible themes.</li>
+</ul>
+
+<p>This plugin is also compatible with <a href="https://github.com/afragen/github-updater/wiki/Installation"><strong>Github Updater</strong> plugin</a>, so if you have Github Updater installed and active, the WebMan Templates plugin will be updated automatically as well. (This may be even better solution for WordPress multisite installations.)</p>
+
+<h2>
+<a id="wordpress-theme-integration" class="anchor" href="#wordpress-theme-integration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>WordPress theme integration</h2>
+
+<p>This is information intended for a theme developers (currently for <a href="https://www.webmandesign.eu">WebMan Design themes</a> only):</p>
+
+<ul>
+<li>The theme <strong>must</strong> declare support for the plugin with a <code>add_theme_support( 'webman-templates' );</code> code.</li>
+<li>The theme <strong>can</strong> declare support for global templates provided with the plugin (with a <code>add_theme_support( 'webman-templates-global' );</code> code). Otherwise only the theme specific templates are served.</li>
+<li>Template thumbnails (featured images) can be served locally from the plugin once you upload them to the <code>templates/THEME_SLUG/thumbs</code> directory. In that case the exported template files (the Beaver Builder <code>.dat</code> files) must not contain the full URL to the image, only the image file name (with possible relative folder path to the image). The best size for template thumbnails is <strong>256px wide</strong> (the height of the image is up to you).</li>
+</ul>
+
+<h2>
+<a id="versioning-info" class="anchor" href="#versioning-info" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Versioning info</h2>
+
+<p>Plugin version numbers consist of <code>MAJOR.MINOR.PATCH</code> numbers:</p>
+
+<ul>
+<li>
+<strong>MAJOR</strong> - Created when a new theme is added (and thus a new theme templates files are added).</li>
+<li>
+<strong>MINOR</strong> - When a plugin functionality is added, when a theme templates files require an update.</li>
+<li>
+<strong>PATCH</strong> - When a plugin main functionality is patched or a minor theme templates file issue is fixed.</li>
+</ul>
+
+<hr>
+
+<p>© <strong>WebMan Templates</strong> by <a href="https://www.webmandesign.eu">WebMan Design</a> | Distributed under terms of <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL-3.0 license</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/webmandesign">webmandesign</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
