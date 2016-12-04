@@ -203,7 +203,12 @@ section {
 
 section .box {
 	padding: 2em;
+	margin-top: 2.62em;
 	background: rgba(0,0,0,.05);
+}
+
+section .box:first-child {
+	margin-top: 0;
 }
 
 section .box p:last-child {
