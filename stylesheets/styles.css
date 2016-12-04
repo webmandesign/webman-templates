@@ -201,12 +201,12 @@ section {
   padding-bottom:50px;
 }
 
-section .intro {
+section .box {
 	padding: 2em;
 	background: rgba(0,0,0,.05);
 }
 
-section .intro p:last-child {
+section .box p:last-child {
 	margin: 0;
 }
 
