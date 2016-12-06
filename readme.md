@@ -4,7 +4,7 @@ Visit https://webmandesign.github.io/webman-templates.
 
 A WordPress plugin that provides a collection of custom [**Beaver Builder** page builder](https://www.wpbeaverbuilder.com/) templates for WordPress themes by [WebMan Design](https://www.webmandesign.eu). Allows convenient and fast way of managing custom template updates without a need to update the compatible themes themselves. The plugin only serves additional custom templates to Beaver Builder page builder interface, thus it is not slowing down your website at all.
 
-## Plugin istallation
+## Plugin installation
 
 Usually this plugin can be automatically installed after you activate a compatible WordPress theme (via [TGM Plugin Activation](http://tgmpluginactivation.com/) script). Alternatively, you can install the plugin manually:
 

@@ -9,8 +9,9 @@
  * Contents:
  *
  *  0) Init
- * 10) Thumbnails
- * 20) Admin notices
+ * 10) Functionality
+ * 20) Thumbnails
+ * 30) Admin notices
  */
 class WebMan_Templates {
 
@@ -21,6 +22,8 @@ class WebMan_Templates {
 	/**
 	 * 0) Init
 	 */
+
+		private static $theme;
 
 		private static $instance;
 
@@ -46,50 +49,16 @@ class WebMan_Templates {
 
 			// Helper variables
 
-				$templates_path = trailingslashit( WMTEMPLATES_PATH . 'templates' );
-
-				$global_template_files = array( 'templates.dat' );
-				$theme_template_files  = array_filter( (array) apply_filters( 'webman_templates/theme_template_files', array() ) );
+				self::$theme = apply_filters( 'webman_templates/theme', get_template() );
 
 
 			// Processing
 
-				// Setup
-
-					// Theme-specific templates
-
-						if ( ! empty( $theme_template_files ) ) {
-							foreach ( $theme_template_files as $file ) {
-
-								$file = trailingslashit( $templates_path . WMTEMPLATES_THEME ) . $file;
-
-								if ( file_exists( $file ) ) {
-									FLBuilder::register_templates( $file );
-								}
-
-							}
-						}
-
-					// Global templates
-
-						if (
-								current_theme_supports( 'webman-templates-global' )
-								&& ! empty( $global_template_files )
-							) {
-							foreach ( $global_template_files as $file ) {
-
-								$file = trailingslashit( $templates_path . '_global' ) . $file;
-
-								if ( file_exists( $file ) ) {
-									FLBuilder::register_templates( $file );
-								}
-
-							}
-						}
-
 				// Hooks
 
 					// Actions
+
+						add_action( 'wp', __CLASS__ . '::register_templates' );
 
 						add_action( 'admin_notices', __CLASS__ . '::notice_webman_amplifier' );
 
@@ -127,7 +96,85 @@ class WebMan_Templates {
 
 
 	/**
-	 * 10) Thumbnails
+	 * 10) Functionality
+	 */
+
+		/**
+		 * Register template files with Beaver Builder
+		 *
+		 * @since    1.0
+		 * @version  1.0
+		 */
+		public static function register_templates() {
+
+			// Requirements check
+
+				if (
+						! is_callable( 'FLBuilderModel::is_builder_active' )
+						|| ! FLBuilderModel::is_builder_active()
+					) {
+					return;
+				}
+
+
+			// Helper variables
+
+				$templates_path        = trailingslashit( WMTEMPLATES_PATH . 'templates' );
+				$theme_setup_file_path = apply_filters( 'webman_templates/theme_setup_file_path', trailingslashit( $templates_path . self::$theme ) . 'setup.php' );
+
+				$theme_template_files = array();
+
+				if ( file_exists( $theme_setup_file_path ) ) {
+					include $theme_setup_file_path;
+				}
+
+				$theme_template_files  = array_filter( (array) apply_filters( 'webman_templates/theme_template_files', $theme_template_files ) );
+				$global_template_files = array_filter( (array) apply_filters( 'webman_templates/global_template_files', array( 'templates.dat' ) ) );
+
+
+			// Processing
+
+				// Theme-specific templates
+
+					if ( ! empty( $theme_template_files ) ) {
+						foreach ( $theme_template_files as $file ) {
+
+							$file = trailingslashit( $templates_path . self::$theme ) . $file;
+							$file = apply_filters( 'webman_templates/theme_template_file', $file, self::$theme, $templates_path );
+
+							if ( file_exists( $file ) ) {
+								FLBuilder::register_templates( $file );
+							}
+
+						}
+					}
+
+				// Global templates
+
+					if (
+							current_theme_supports( 'webman-templates-global' )
+							&& ! empty( $global_template_files )
+						) {
+						foreach ( $global_template_files as $file ) {
+
+							$file = trailingslashit( $templates_path . '_global' ) . $file;
+							$file = apply_filters( 'webman_templates/global_template_file', $file, self::$theme, $templates_path );
+
+							if ( file_exists( $file ) ) {
+								FLBuilder::register_templates( $file );
+							}
+
+						}
+					}
+
+		} // /register_templates
+
+
+
+
+
+	/**
+	 * 20) Thumbnails
 	 */
 
 		/**
@@ -149,10 +196,10 @@ class WebMan_Templates {
 
 			// Helper variables
 
-				$path       = trailingslashit( WMTEMPLATES_PATH . 'templates/' . WMTEMPLATES_THEME );
-				$url_base   = trailingslashit( WMTEMPLATES_URL . 'templates/' . WMTEMPLATES_THEME );
+				$path       = trailingslashit( WMTEMPLATES_PATH . 'templates/' . self::$theme );
+				$url_base   = trailingslashit( WMTEMPLATES_URL . 'templates/' . self::$theme );
 				$categories = implode( '|', array_keys( (array) $template_data['category'] ) );
-				$extensions = array_filter( (array) apply_filters( 'webman_templates/thumbnail_extension', array( 'jpg', 'png' ) ) );
+				$extensions = array_filter( (array) apply_filters( 'webman_templates/thumbnail_extension', array( 'png', 'jpg' ) ) );
 
 
 			// Processing
@@ -184,6 +231,7 @@ class WebMan_Templates {
 
 								if ( file_exists( $path . $image_file ) ) {
 									$template_data['image'] = $url_base . $image_file;
+									break;
 								}
 
 							}
@@ -205,7 +253,7 @@ class WebMan_Templates {
 
 
 	/**
-	 * 20) Admin notices
+	 * 30) Admin notices
 	 */
 
 		/**

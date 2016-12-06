@@ -7,7 +7,10 @@
  * @link  https://github.com/afragen/github-updater
  * @link  https://github.com/afragen/github-updater/wiki/Installation
  */
-if ( class_exists( 'Fragen\\GitHub_Updater\\Base' ) ) {
+if (
+		class_exists( 'Fragen\\GitHub_Updater\\Base' )
+		|| ! is_admin()
+	) {
 	return;
 }
 
@@ -54,7 +57,6 @@ if ( class_exists( 'Fragen\\GitHub_Updater\\Base' ) ) {
 			if (
 					! is_multisite()
 					|| is_plugin_active_for_network( plugin_basename( WMTEMPLATES_FILE ) )
-					|| ! is_admin()
 					|| ! in_array( $screen->id, array( 'plugins', 'dashboard', 'appearance_page_tgmpa-install-plugins' ) )
 					|| ! current_user_can( 'activate_plugins' )
 				) {

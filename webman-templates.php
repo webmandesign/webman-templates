@@ -38,8 +38,6 @@
 
 	define( 'WMTEMPLATES_URL', plugin_dir_url( WMTEMPLATES_FILE ) ); // Trailing slashed
 
-	define( 'WMTEMPLATES_THEME', get_template() );
-
 
 
 
@@ -51,14 +49,6 @@
 	// Main plugin functionality
 
 		require_once WMTEMPLATES_PATH . 'includes/classes/class-webman-templates.php';
-
-	// Theme-specific templates
-
-		$template_setup_file_path = trailingslashit( WMTEMPLATES_PATH . 'templates/' . WMTEMPLATES_THEME ) . 'setup.php';
-
-		if ( file_exists( $template_setup_file_path ) ) {
-			require_once $template_setup_file_path;
-		}
 
 	// Plugin automatic updates
 
