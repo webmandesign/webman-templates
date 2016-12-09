@@ -4,7 +4,7 @@
  * Plugin Name:        WebMan Templates
  * Plugin URI:         https://webmandesign.github.io/webman-templates
  * Description:        Adding predefined custom Beaver Builder page builder templates.
- * Version:            0.7.0
+ * Version:            0.8.0
  * Author:             WebMan Design - Oliver Juhas
  * Author URI:         https://www.webmandesign.eu
  * License:            GNU General Public License v3
@@ -21,7 +21,7 @@
  *
  * @package  WebMan Templates
  *
- * @version  0.7.0
+ * @version  0.8.0
  */
 
 

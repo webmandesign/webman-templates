@@ -54,11 +54,13 @@ class WebMan_Templates {
 
 			// Processing
 
+				// Load
+
+					self::register_templates();
+
 				// Hooks
 
 					// Actions
-
-						add_action( 'wp', __CLASS__ . '::register_templates' );
 
 						add_action( 'admin_notices', __CLASS__ . '::notice_webman_amplifier' );
 
@@ -102,6 +104,10 @@ class WebMan_Templates {
 		/**
 		 * Register template files with Beaver Builder
 		 *
+		 * IMPORTANT:
+		 * Don't use `FLBuilderModel::is_builder_active()` here to check
+		 * if Beaver Builder is in edit mode as it won't work.
+		 *
 		 * @since    1.0
 		 * @version  1.0
 		 */
@@ -109,10 +115,7 @@ class WebMan_Templates {
 
 			// Requirements check
 
-				if (
-						! is_callable( 'FLBuilderModel::is_builder_active' )
-						|| ! FLBuilderModel::is_builder_active()
-					) {
+				if ( ! isset( $_GET['fl_builder'] ) ) {
 					return;
 				}
 
