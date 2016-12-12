@@ -201,8 +201,12 @@ class WebMan_Templates {
 
 				$path       = trailingslashit( WMTEMPLATES_PATH . 'templates/' . self::$theme );
 				$url_base   = trailingslashit( WMTEMPLATES_URL . 'templates/' . self::$theme );
-				$categories = implode( '|', array_keys( (array) $template_data['category'] ) );
+				$categories = '';
 				$extensions = array_filter( (array) apply_filters( 'webman_templates/thumbnail_extension', array( 'png', 'jpg' ) ) );
+
+				if ( isset( $template_data['category'] ) ) {
+					$categories = implode( '|', array_keys( (array) $template_data['category'] ) );
+				}
 
 
 			// Processing
