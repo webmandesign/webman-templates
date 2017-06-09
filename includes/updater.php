@@ -42,8 +42,8 @@ if (
 	/**
 	 * Admin notice for multisite network plugin activation
 	 *
-	 * @since    1.0
-	 * @version  1.0
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	function webman_templates_admin_notice_updater() {
 

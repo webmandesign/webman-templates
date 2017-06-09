@@ -3,8 +3,8 @@
 /**
  * Adding custom templates into Beaver Builder
  *
- * @since    1.0
- * @version	 1.0
+ * @since    1.0.0
+ * @version  1.0.0
  *
  * Contents:
  *
@@ -32,8 +32,8 @@ class WebMan_Templates {
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		private function __construct() {
 
@@ -75,8 +75,8 @@ class WebMan_Templates {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public static function init() {
 
@@ -108,8 +108,8 @@ class WebMan_Templates {
 		 * Don't use `FLBuilderModel::is_builder_active()` here to check
 		 * if Beaver Builder is in edit mode as it won't work.
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public static function register_templates() {
 
@@ -189,8 +189,8 @@ class WebMan_Templates {
 		 * Then put the thumbnails into `templates/THEME_SLUG/thumbs/` folder.
 		 * Best thumbnail image size is 256 px wide, the height is up to you.
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  array  $template_data
 		 * @param  object $template
@@ -266,8 +266,8 @@ class WebMan_Templates {
 		/**
 		 * Admin notice container
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  string $text   Notice text.
 		 * @param  string $id     Unique notice id.
@@ -294,11 +294,12 @@ class WebMan_Templates {
 		} // /notice
 
 
+
 		/**
 		 * Admin notice: WebMan Amplifier plugin
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public static function notice_webman_amplifier() {
 

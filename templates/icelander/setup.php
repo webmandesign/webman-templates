@@ -3,8 +3,8 @@
 /**
  * Theme template files setup
  *
- * @since    1.0.0
- * @version  1.0.0
+ * @since    2.0.0
+ * @version  2.0.0
  */
 $theme_template_files = array(
 		'rows-content.dat',

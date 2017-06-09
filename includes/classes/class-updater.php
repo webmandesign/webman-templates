@@ -8,8 +8,8 @@
  * @link  https://www.smashingmagazine.com/2015/08/deploy-wordpress-plugins-with-github-using-transients/
  * @link  https://github.com/rayman813/smashing-updater-plugin
  *
- * @since    1.0
- * @version  1.0
+ * @since    1.0.0
+ * @version  1.0.0
  *
  * Contents:
  *
@@ -42,8 +42,8 @@ class WebMan_Templates_Updater {
 		/**
 		 * Class constructor
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  string $file  Plugin main file.
 		 */
@@ -72,8 +72,8 @@ class WebMan_Templates_Updater {
 		/**
 		 * Initialize the class by setting hooks
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public function initialize() {
 
@@ -105,8 +105,8 @@ class WebMan_Templates_Updater {
 		 * - plugin basename (plugin folder with main plugin file including extension)
 		 * - plugin activation state
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public function set_plugin_properties() {
 
@@ -123,8 +123,8 @@ class WebMan_Templates_Updater {
 		/**
 		 * Setting Github: Username
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  string $username  Github repository account username.
 		 */
@@ -141,8 +141,8 @@ class WebMan_Templates_Updater {
 		/**
 		 * Setting Github: Repository
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  string $repository  Github repository slug.
 		 */
@@ -159,8 +159,8 @@ class WebMan_Templates_Updater {
 		/**
 		 * Setting Github: Private repository authorization
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  string $token  Private Github repository authorization token.
 		 */
@@ -183,8 +183,8 @@ class WebMan_Templates_Updater {
 		/**
 		 * Get Github repository information
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		private function get_repository_info() {
 
@@ -238,8 +238,8 @@ class WebMan_Templates_Updater {
 		 * The `pre_set_site_transient_update_plugins` is fired twice, so we make sure
 		 * we run the code just once by checking if `$transient->response` is set.
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  array $transient  Value of `update_plugins` transient.
 		 */
@@ -297,8 +297,8 @@ class WebMan_Templates_Updater {
 		/**
 		 * Set content of plugin update info popup
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  false|object|array $result  The result object or array. Default false.
 		 * @param  string             $action  The type of information being requested from the Plugin Install API.
@@ -359,8 +359,8 @@ class WebMan_Templates_Updater {
 		/**
 		 * Filter the install response after the installation has finished
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  bool  $response    Install response.
 		 * @param  array $hook_extra  Extra arguments passed to hooked filters.
