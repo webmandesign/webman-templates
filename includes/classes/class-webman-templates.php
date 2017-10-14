@@ -4,7 +4,7 @@
  * Adding custom templates into Beaver Builder
  *
  * @since    1.0.0
- * @version  1.0.0
+ * @version  2.1.0
  *
  * Contents:
  *
@@ -109,7 +109,7 @@ class WebMan_Templates {
 		 * if Beaver Builder is in edit mode as it won't work.
 		 *
 		 * @since    1.0.0
-		 * @version  1.0.0
+		 * @version  2.1.0
 		 */
 		public static function register_templates() {
 
@@ -131,8 +131,10 @@ class WebMan_Templates {
 					include $theme_setup_file_path;
 				}
 
-				$theme_template_files  = array_filter( (array) apply_filters( 'webman_templates/theme_template_files', $theme_template_files ) );
-				$global_template_files = array_filter( (array) apply_filters( 'webman_templates/global_template_files', array( 'templates.dat' ) ) );
+				$theme_template_files = array_filter( (array) apply_filters( 'webman_templates/theme_template_files', $theme_template_files ) );
+
+				$global_template_files = ( ! class_exists( 'WM_Amplifier' ) ) ? ( array( 'rows.dat' ) ) : ( array( 'rows.dat', 'rows-wmamp.dat' ) );
+				$global_template_files = array_filter( (array) apply_filters( 'webman_templates/global_template_files', $global_template_files ) );
 
 
 			// Processing
@@ -298,14 +300,24 @@ class WebMan_Templates {
 		/**
 		 * Admin notice: WebMan Amplifier plugin
 		 *
+		 * When WebMan Amplifier is not active and you claim its
+		 * compatibility with WebMan Templates within your theme,
+		 * or when you do not support global templates,
+		 * then display an admin notification about WebMan Amplifier
+		 * plugin installation.
+		 *
 		 * @since    1.0.0
-		 * @version  1.0.0
+		 * @version  2.1.0
 		 */
 		public static function notice_webman_amplifier() {
 
 			// Requirements check
 
-				if ( class_exists( 'WM_Amplifier' ) ) {
+				if (
+						class_exists( 'WM_Amplifier' )
+						|| ! current_theme_supports( 'webman-templates-amplifier' )
+						|| current_theme_supports( 'webman-templates-global' )
+					) {
 					return;
 				}
 
