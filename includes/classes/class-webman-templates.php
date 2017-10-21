@@ -1,17 +1,17 @@
 <?php if ( ! defined( 'WPINC' ) ) exit;
-
 /**
  * Adding custom templates into Beaver Builder
  *
  * @since    1.0.0
- * @version  2.1.0
+ * @version  2.2.0
  *
  * Contents:
  *
- *  0) Init
- * 10) Functionality
- * 20) Thumbnails
- * 30) Admin notices
+ *   0) Init
+ *  10) Functionality
+ *  20) Thumbnails
+ *  30) Admin notices
+ * 100) Helpers
  */
 class WebMan_Templates {
 
@@ -23,6 +23,8 @@ class WebMan_Templates {
 	 * 0) Init
 	 */
 
+		public static $path_templates;
+
 		private static $theme;
 
 		private static $instance;
@@ -33,23 +35,22 @@ class WebMan_Templates {
 		 * Constructor
 		 *
 		 * @since    1.0.0
-		 * @version  1.0.0
+		 * @version  2.2.0
 		 */
 		private function __construct() {
 
 			// Requirements check
 
-				if (
-						! is_callable( 'FLBuilder::register_templates' )
-						|| ! current_theme_supports( 'webman-templates' )
-					) {
+				if ( ! is_callable( 'FLBuilder::register_templates' ) ) {
+					// No need to run if Beaver Builder is not active.
 					return;
 				}
 
 
 			// Helper variables
 
-				self::$theme = apply_filters( 'webman_templates/theme', get_template() );
+				self::$theme          = apply_filters( 'webman_templates/theme', get_template() );
+				self::$path_templates = trailingslashit( WMTEMPLATES_PATH . 'templates' );
 
 
 			// Processing
@@ -109,7 +110,7 @@ class WebMan_Templates {
 		 * if Beaver Builder is in edit mode as it won't work.
 		 *
 		 * @since    1.0.0
-		 * @version  2.1.0
+		 * @version  2.2.0
 		 */
 		public static function register_templates() {
 
@@ -122,55 +123,35 @@ class WebMan_Templates {
 
 			// Helper variables
 
-				$templates_path        = trailingslashit( WMTEMPLATES_PATH . 'templates' );
-				$theme_setup_file_path = apply_filters( 'webman_templates/theme_setup_file_path', trailingslashit( $templates_path . self::$theme ) . 'setup.php' );
-
-				$theme_template_files = array();
-
-				if ( file_exists( $theme_setup_file_path ) ) {
-					include $theme_setup_file_path;
-				}
-
-				$theme_template_files = array_filter( (array) apply_filters( 'webman_templates/theme_template_files', $theme_template_files ) );
-
-				$global_template_files = ( ! class_exists( 'WM_Amplifier' ) ) ? ( array( 'rows.dat' ) ) : ( array( 'rows.dat', 'rows-wmamp.dat' ) );
-				$global_template_files = array_filter( (array) apply_filters( 'webman_templates/global_template_files', $global_template_files ) );
+				$templates_theme  = self::get_template_files( 'theme' );
+				$tempaltes_global = self::get_template_files( 'global' );
 
 
 			// Processing
 
 				// Theme-specific templates
+				if ( ! empty( $templates_theme ) ) {
+					foreach ( $templates_theme as $file ) {
+						$file = trailingslashit( self::$path_templates . self::$theme ) . $file;
+						$file = apply_filters( 'webman_templates/template_file', $file, 'theme', self::$theme );
 
-					if ( ! empty( $theme_template_files ) ) {
-						foreach ( $theme_template_files as $file ) {
-
-							$file = trailingslashit( $templates_path . self::$theme ) . $file;
-							$file = apply_filters( 'webman_templates/theme_template_file', $file, self::$theme, $templates_path );
-
-							if ( file_exists( $file ) ) {
-								FLBuilder::register_templates( $file );
-							}
-
+						if ( file_exists( $file ) ) {
+							FLBuilder::register_templates( $file );
 						}
 					}
+				}
 
 				// Global templates
+				if ( self::get_globals_support() && ! empty( $tempaltes_global ) ) {
+					foreach ( $tempaltes_global as $file ) {
+						$file = trailingslashit( self::$path_templates . '_global' ) . $file;
+						$file = apply_filters( 'webman_templates/template_file', $file, 'global', self::$theme );
 
-					if (
-							current_theme_supports( 'webman-templates-global' )
-							&& ! empty( $global_template_files )
-						) {
-						foreach ( $global_template_files as $file ) {
-
-							$file = trailingslashit( $templates_path . '_global' ) . $file;
-							$file = apply_filters( 'webman_templates/global_template_file', $file, self::$theme, $templates_path );
-
-							if ( file_exists( $file ) ) {
-								FLBuilder::register_templates( $file );
-							}
-
+						if ( file_exists( $file ) ) {
+							FLBuilder::register_templates( $file );
 						}
 					}
+				}
 
 		} // /register_templates
 
@@ -188,11 +169,14 @@ class WebMan_Templates {
 		 * If you want to use local plugin template thumbnails, make sure
 		 * your Templates posts are organized into categories which slug
 		 * starts with `wm-` or `theme-` prefix.
-		 * Then put the thumbnails into `templates/THEME_SLUG/thumbs/` folder.
+		 * For global templates the category slug has to include `-example`
+		 * somewhere, possibly as a suffix.
+		 * Then put the thumbnails into `templates/THEME_SLUG/thumbs/` folder
+		 * (or `templates/_global/thumbs/` folder, respectively).
 		 * Best thumbnail image size is 256 px wide, the height is up to you.
 		 *
 		 * @since    1.0.0
-		 * @version  1.0.0
+		 * @version  2.2.0
 		 *
 		 * @param  array  $template_data
 		 * @param  object $template
@@ -201,11 +185,7 @@ class WebMan_Templates {
 
 			// Helper variables
 
-				$path       = trailingslashit( WMTEMPLATES_PATH . 'templates/' . self::$theme );
-				$url_base   = trailingslashit( WMTEMPLATES_URL . 'templates/' . self::$theme );
 				$categories = '';
-				$extensions = array_filter( (array) apply_filters( 'webman_templates/thumbnail_extension', array( 'png', 'jpg' ) ) );
-
 				if ( isset( $template_data['category'] ) ) {
 					$categories = implode( '|', array_keys( (array) $template_data['category'] ) );
 				}
@@ -213,40 +193,50 @@ class WebMan_Templates {
 
 			// Processing
 
-				if (
-						false !== stripos( $categories, 'wm-' )
-						|| false !== stripos( $categories, 'theme-' )
-					) {
+				// Does our category slug contain `wm-` or `theme-`?
+				if ( false !== stripos( $categories, 'wm-' ) || false !== stripos( $categories, 'theme-' ) ) {
 
-					if ( $template->image ) {
+					// Additional helper variables
 
-						$template_data['image'] = $url_base . 'thumbs/' . $template->image;
+						$extensions = array_filter( (array) apply_filters( 'webman_templates/thumbnail_extension', array( 'png', 'jpg' ) ) );
 
-					} else {
-
-						/**
-						 * This image will not be displayed.
-						 * That's how Beaver Builder treats `blank.jpg` in its interface.
-						 */
-						$template_data['image'] = $url_base . 'thumbnail/blank.jpg';
-
-						/**
-						 * Or, use thumbnail named as template slug, if it exists.
-						 */
-						if ( isset( $template->slug ) && $template->slug ) {
-							foreach ( $extensions as $extension ) {
-
-								$image_file = 'thumbs/' . $template->slug . '.' . preg_replace( '/[^A-Za-z]/', '', $extension );
-
-								if ( file_exists( $path . $image_file ) ) {
-									$template_data['image'] = $url_base . $image_file;
-									break;
-								}
-
-							}
+						if ( false !== stripos( $categories, '-example' ) ) {
+							$path     = trailingslashit( WMTEMPLATES_PATH . 'templates/_global' );
+							$url_base = trailingslashit( WMTEMPLATES_URL . 'templates/_global' );
+						} else {
+							$path     = trailingslashit( WMTEMPLATES_PATH . 'templates/' . self::$theme );
+							$url_base = trailingslashit( WMTEMPLATES_URL . 'templates/' . self::$theme );
 						}
 
-					}
+					// Set thumbnail
+
+						if ( $template->image ) {
+
+							$template_data['image'] = $url_base . 'thumbs/' . $template->image;
+
+						} else {
+
+							/**
+							 * This image will not be displayed.
+							 * That's how Beaver Builder treats `blank.jpg` in its interface.
+							 */
+							$template_data['image'] = $url_base . 'thumbnail/blank.jpg';
+
+							/**
+							 * Or, use thumbnail named as template slug, if it exists.
+							 */
+							if ( isset( $template->slug ) && $template->slug ) {
+								foreach ( $extensions as $extension ) {
+									$image_file = 'thumbs/' . $template->slug . '.' . preg_replace( '/[^A-Za-z]/', '', $extension );
+
+									if ( file_exists( $path . $image_file ) ) {
+										$template_data['image'] = $url_base . $image_file;
+										break;
+									}
+								}
+							}
+
+						}
 
 				}
 
@@ -307,16 +297,17 @@ class WebMan_Templates {
 		 * plugin installation.
 		 *
 		 * @since    1.0.0
-		 * @version  2.1.0
+		 * @version  2.2.0
 		 */
 		public static function notice_webman_amplifier() {
 
 			// Requirements check
 
 				if (
-						class_exists( 'WM_Amplifier' )
-						|| ! current_theme_supports( 'webman-templates-amplifier' )
-						|| current_theme_supports( 'webman-templates-global' )
+						! (
+							( current_theme_supports( 'webman-templates-amplifier' ) && ! class_exists( 'WM_Shortcodes' ) )
+							|| ! self::get_globals_support()
+						)
 					) {
 					return;
 				}
@@ -330,9 +321,16 @@ class WebMan_Templates {
 			// Processing
 
 				$output .= '<p>';
-				$output .= 'You need to <strong>install and activate</strong> the <a href="https://wordpress.org/plugins/webman-amplifier/" target="_blank"><strong>WebMan Amplifier</strong></a> plugin to use the custom Beaver Builder page builder templates provided by WebMan Templates plugin. ';
-				$output .= '<br>Also, make sure your <strong>theme is compatible</strong> both with WebMan Amplifier and WebMan Templates plugins. ';
-				$output .= 'Please visit <a href="https://www.webmandesign.eu" target="_blank">WebMan Design website</a> for selection of compatible themes. ';
+				$output .= sprintf(
+					/* translators: %s: Linked WebMan Amplifier plugin name. */
+					esc_html__( 'You need to install and activate the %s plugin to use the additional custom Beaver Builder page builder templates.', 'webman-templates' ),
+					'<a href="https://wordpress.org/plugins/webman-amplifier/" target="_blank"><strong>WebMan Amplifier</strong></a>'
+				);
+				$output .= '<br>';
+				$output .= esc_html__( 'Also, make sure your theme is compatible with page builder elements (shortcodes) provided by WebMan Amplifier plugin.', 'webman-templates' );
+				$output .= ' <a href="https://www.webmandesign.eu" target="_blank">';
+				$output .= esc_html__( 'Visit WebMan Design website for compatible themes.', 'webman-templates' );
+				$output .= '</a>';
 				$output .= '</p>';
 
 
@@ -341,6 +339,88 @@ class WebMan_Templates {
 				echo self::notice( $output, 'wmamp', 'error notice-error' );
 
 		} // /notice_webman_amplifier
+
+
+
+
+
+	/**
+	 * 100) Helpers
+	 */
+
+		/**
+		 * Get templates files in array
+		 *
+		 * Getting global template files array is default.
+		 *
+		 * @since    2.2.0
+		 * @version  2.2.0
+		 */
+		public static function get_template_files( $scope = '' ) {
+
+			// Helper variables
+
+				$template_files = array( 'rows.dat' );
+
+				if ( class_exists( 'WM_Shortcodes' ) ) {
+					$template_files[] = 'rows-wmamp.dat';
+				}
+
+
+			// Processing
+
+				// Get theme specific template files
+				if ( 'theme' === $scope ) {
+
+					$theme_setup_file_path = apply_filters( 'webman_templates/theme_setup_file_path', trailingslashit( self::$path_templates . self::$theme ) . 'setup.php' );
+
+					if ( file_exists( $theme_setup_file_path ) ) {
+						// This file has to contain some `$template_files = array(...);` code!
+						include $theme_setup_file_path;
+					} else {
+						$template_files = array();
+					}
+
+				}
+
+
+			// Output
+
+				return array_filter( (array) apply_filters( 'webman_templates/template_files', $template_files, $scope ) );
+
+		} // /get_template_files
+
+
+
+		/**
+		 * Get global templates support
+		 *
+		 * @since    2.2.0
+		 * @version  2.2.0
+		 */
+		public static function get_globals_support() {
+
+			// Helper variables
+
+				$output = true;
+				$theme_templates = self::get_template_files( 'theme' );
+
+
+			// Processing
+
+				if (
+						! empty( $theme_templates )
+						&& ! current_theme_supports( 'webman-templates-global' )
+					) {
+					$output = false;
+				}
+
+
+			// Output
+
+				return $output;
+
+		} // /get_globals_support
 
 
 

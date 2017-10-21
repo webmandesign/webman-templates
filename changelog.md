@@ -1,5 +1,28 @@
 # WebMan Templates Changelog
 
+## 2.2.0
+
+* **Add**: Localization
+* **Add**: Global templates thumbnails
+* **Update**: Making ready for WPORG plugins repository upload
+* **Update**: Plugin info
+* **Update**: Making global templates work with any theme
+* **Update**: Removing obsolete custom plugin updater script
+* **Update**: Persist Admin Notice Dismissal script v1.3.1
+
+### Files changed:
+
+	changelog.md
+	webman-templates.php
+	includes/classes/class-webman-templates.php
+	includes/vendor/perist-admin-notices-dismissal/*.*
+	languages/*.*
+	templates/_global/thumbs/*.*
+	templates/_global/rows.dat
+	templates/icelander/setup.php
+	templates/monument-valley/setup.php
+
+
 ## 2.1.0
 
 * **Add**: Global templates

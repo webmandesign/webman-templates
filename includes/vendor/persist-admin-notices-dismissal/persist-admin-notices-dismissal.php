@@ -22,7 +22,7 @@
  * @author  Agbonghama Collins
  * @author  Andy Fragen
  * @license http://www.gnu.org/licenses GNU General Public License
- * @version 1.3
+ * @version 1.3.1
  */
 
 /**
@@ -51,6 +51,9 @@ if ( ! class_exists( 'PAnD' ) ) {
 		 * Enqueue javascript and variables.
 		 */
 		public static function load_script() {
+
+		    if(is_customize_preview()) return;
+
 			wp_enqueue_script(
 				'dismissible-notices',
 				plugins_url( 'dismiss-notice.js', __FILE__ ),

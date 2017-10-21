@@ -1,21 +1,22 @@
 <?php if ( ! defined( 'WPINC' ) ) exit;
-
 /**
  * Plugin Name:        WebMan Templates
- * Plugin URI:         https://webmandesign.github.io/webman-templates
- * Description:        Adding predefined custom Beaver Builder page builder templates.
- * Version:            2.1.0
- * Author:             WebMan Design - Oliver Juhas
- * Author URI:         https://www.webmandesign.eu
+ * Plugin URI:         https://www.webmandesign.eu/portfolio/webman-templates-wordpress-plugin/
+ * Description:        Provides collection of pre-designed row templates for Beaver Builder page builder.
+ * Version:            2.2.0
+ * Author:             WebMan Design, Oliver Juhas
+ * Author URI:         https://www.webmandesign.eu/
+ * Text Domain:        webman-templates
+ * Domain Path:        /languages
  * License:            GNU General Public License v3
  * License URI:        http://www.gnu.org/licenses/gpl-3.0.txt
  * Requires at least:  4.5
- * Tested up to:       4.8
- * GitHub Plugin URI:  webmandesign/webman-templates
+ * Tested up to:       4.9
  *
  * @copyright  WebMan Design, Oliver Juhas
  * @license    GPL-3.0, https://www.gnu.org/licenses/gpl-3.0.html
  *
+ * @link  https://www.webmandesign.eu/portfolio/webman-templates-wordpress-plugin/
  * @link  https://github.com/webmandesign/webman-templates
  * @link  https://www.webmandesign.eu
  *
@@ -47,12 +48,6 @@
 	// Main plugin functionality
 
 		require_once WMTEMPLATES_PATH . 'includes/classes/class-webman-templates.php';
-
-	// Plugin automatic updates
-
-		if ( ! class_exists( 'Fragen\\GitHub_Updater\\Base' ) ) {
-			require_once WMTEMPLATES_PATH . 'includes/updater.php';
-		}
 
 	// Admin notices dismissal load
 
