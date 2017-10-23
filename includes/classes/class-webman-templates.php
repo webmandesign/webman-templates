@@ -3,7 +3,7 @@
  * Adding custom templates into Beaver Builder
  *
  * @since    1.0.0
- * @version  2.2.1
+ * @version  2.2.2
  *
  * Contents:
  *
@@ -34,7 +34,7 @@ class WebMan_Templates {
 		 * Constructor
 		 *
 		 * @since    1.0.0
-		 * @version  2.2.0
+		 * @version  2.2.2
 		 */
 		private function __construct() {
 
@@ -59,10 +59,6 @@ class WebMan_Templates {
 					self::register_templates();
 
 				// Hooks
-
-					// Actions
-
-						add_action( 'admin_notices', __CLASS__ . '::notice_webman_amplifier' );
 
 					// Filters
 

@@ -3,7 +3,7 @@
  * Plugin Name:        WebMan Templates
  * Plugin URI:         https://www.webmandesign.eu/portfolio/webman-templates-wordpress-plugin/
  * Description:        Provides collection of pre-designed row templates for Beaver Builder page builder.
- * Version:            2.2.1
+ * Version:            2.2.2
  * Author:             WebMan Design, Oliver Juhas
  * Author URI:         https://www.webmandesign.eu/
  * License:            GNU General Public License v3

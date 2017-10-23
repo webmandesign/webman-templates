@@ -1,5 +1,16 @@
 # WebMan Templates Changelog
 
+## 2.2.2
+
+* **Fix**: PHP error introduced in version 2.2.1
+
+### Files changed:
+
+	changelog.md
+	webman-templates.php
+	includes/classes/class-webman-templates.php
+
+
 ## 2.2.1
 
 * **Update**: Removing obsolete admin notification (and localization)
