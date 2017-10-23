@@ -3,14 +3,13 @@
  * Adding custom templates into Beaver Builder
  *
  * @since    1.0.0
- * @version  2.2.0
+ * @version  2.2.1
  *
  * Contents:
  *
  *   0) Init
  *  10) Functionality
  *  20) Thumbnails
- *  30) Admin notices
  * 100) Helpers
  */
 class WebMan_Templates {
@@ -246,99 +245,6 @@ class WebMan_Templates {
 				return $template_data;
 
 		} // /thumbnail_src
-
-
-
-
-
-	/**
-	 * 30) Admin notices
-	 */
-
-		/**
-		 * Admin notice container
-		 *
-		 * @since    1.0.0
-		 * @version  1.0.0
-		 *
-		 * @param  string $text   Notice text.
-		 * @param  string $id     Unique notice id.
-		 * @param  string $class  Notice CSS class.
-		 */
-		public static function notice( $text, $id, $class = 'update' ) {
-
-			// Helper variables
-
-				$id = 'webman-templates-notice-' . sanitize_html_class( trim( $id ) ) . '-forever';
-
-
-			// Requirements check
-
-				if ( ! PAnD::is_admin_notice_active( $id ) ) {
-					return;
-				}
-
-
-			// Output
-
-				return '<div data-dismissible="' . esc_attr( $id ) . '" class="wm-notice notice is-dismissible ' . esc_attr( trim( $class ) ) . '">' . $text . '</div>';
-
-		} // /notice
-
-
-
-		/**
-		 * Admin notice: WebMan Amplifier plugin
-		 *
-		 * When WebMan Amplifier is not active and you claim its
-		 * compatibility with WebMan Templates within your theme,
-		 * or when you do not support global templates,
-		 * then display an admin notification about WebMan Amplifier
-		 * plugin installation.
-		 *
-		 * @since    1.0.0
-		 * @version  2.2.0
-		 */
-		public static function notice_webman_amplifier() {
-
-			// Requirements check
-
-				if (
-						! (
-							( current_theme_supports( 'webman-templates-amplifier' ) && ! class_exists( 'WM_Shortcodes' ) )
-							|| ! self::get_globals_support()
-						)
-					) {
-					return;
-				}
-
-
-			// Helper variables
-
-				$output = '';
-
-
-			// Processing
-
-				$output .= '<p>';
-				$output .= sprintf(
-					/* translators: %s: Linked WebMan Amplifier plugin name. */
-					esc_html__( 'You need to install and activate the %s plugin to use the additional custom Beaver Builder page builder templates.', 'webman-templates' ),
-					'<a href="https://wordpress.org/plugins/webman-amplifier/" target="_blank"><strong>WebMan Amplifier</strong></a>'
-				);
-				$output .= '<br>';
-				$output .= esc_html__( 'Also, make sure your theme is compatible with page builder elements (shortcodes) provided by WebMan Amplifier plugin.', 'webman-templates' );
-				$output .= ' <a href="https://www.webmandesign.eu" target="_blank">';
-				$output .= esc_html__( 'Visit WebMan Design website for compatible themes.', 'webman-templates' );
-				$output .= '</a>';
-				$output .= '</p>';
-
-
-			// Output
-
-				echo self::notice( $output, 'wmamp', 'error notice-error' );
-
-		} // /notice_webman_amplifier
 
 
 

@@ -3,11 +3,9 @@
  * Plugin Name:        WebMan Templates
  * Plugin URI:         https://www.webmandesign.eu/portfolio/webman-templates-wordpress-plugin/
  * Description:        Provides collection of pre-designed row templates for Beaver Builder page builder.
- * Version:            2.2.0
+ * Version:            2.2.1
  * Author:             WebMan Design, Oliver Juhas
  * Author URI:         https://www.webmandesign.eu/
- * Text Domain:        webman-templates
- * Domain Path:        /languages
  * License:            GNU General Public License v3
  * License URI:        http://www.gnu.org/licenses/gpl-3.0.txt
  * Requires at least:  4.5
@@ -48,11 +46,3 @@
 	// Main plugin functionality
 
 		require_once WMTEMPLATES_PATH . 'includes/classes/class-webman-templates.php';
-
-	// Admin notices dismissal load
-
-		if ( ! class_exists( 'PAnD' ) ) {
-			require_once WMTEMPLATES_PATH . 'includes/vendor/persist-admin-notices-dismissal/persist-admin-notices-dismissal.php';
-
-			add_action( 'admin_init', array( 'PAnD', 'init' ) );
-		}

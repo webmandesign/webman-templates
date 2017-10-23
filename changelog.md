@@ -1,5 +1,18 @@
 # WebMan Templates Changelog
 
+## 2.2.1
+
+* **Update**: Removing obsolete admin notification (and localization)
+
+### Files changed:
+
+	changelog.md
+	webman-templates.php
+	includes/classes/class-webman-templates.php
+	includes/vendor/perist-admin-notices-dismissal/*.*
+	languages/*.*
+
+
 ## 2.2.0
 
 * **Add**: Localization
