@@ -18,7 +18,7 @@
         <h1>WebMan Templates</h1>
         <p class="description">A WordPress plugin adding custom templates into Beaver Builder page builder plugin.</p>
 
-        <p><a href="http://webmandesign.github.io/webman-templates/downloads/webman-templates.zip" class="btn">Download plugin ZIP</a></p>
+        <p><a href="https://wordpress.org/plugins/webman-templates/" class="btn">Download the plugin</a></p>
 
         <p class="view"><a href="https://github.com/webmandesign/webman-templates">View the Project on GitHub <small>webmandesign/webman-templates</small></a></p>
       </header>
@@ -31,41 +31,7 @@
 <h2>
 <a id="plugin-installation" class="anchor" href="#plugin-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plugin installation</h2>
 
-<p>Usually this plugin can be automatically installed after you activate a compatible WordPress theme (via <a href="http://tgmpluginactivation.com/">TGM Plugin Activation</a> script). Alternatively, you can install the plugin manually:</p>
-
-<ol>
-<li>Download the <a href="http://webmandesign.github.io/webman-templates/downloads/webman-templates.zip">latest plugin ZIP file</a>.</li>
-<li>In your WordPress dashboard navigate to the <strong>Plugins → Add New</strong> screen and click the <strong>Upload</strong> tab.</li>
-<li>Upload the ZIP file.</li>
-<li>Navigate to the <strong>Plugins</strong> screen and activate the WebMan Templates plugin.</li>
-</ol>
-
-<h2>
-<a id="automatic-plugin-updates" class="anchor" href="#automatic-plugin-updates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Automatic plugin updates</h2>
-
-<p>Once you install the plugin, it should receive updates automatically. You just <strong>need to activate the plugin</strong> to enable the automatic updates:</p>
-
-<ul>
-<li>
-<strong>Standard WordPress installation (single-site)</strong>:<br>
-Just install and activate the plugin. You will receive a new plugin updates automatically.</li>
-<li>
-<strong>Multisite WordPress installation (network)</strong>:<br>
-In this case you need to activate the plugin for the whole network of your WordPress sites. Otherwise the plugin automatic updates will not work. You will be notified about this if you accidentally activate the plugin for a single site in your network only. The plugin only works on sites that use a compatible themes.</li>
-</ul>
-
-<p>This plugin is also compatible with <a href="https://github.com/afragen/github-updater/wiki/Installation"><strong>GitHub Updater</strong> plugin</a>, so if you have GitHub Updater installed and active, the WebMan Templates plugin will be updated automatically as well. (This may be even better solution for WordPress multisite installations.)</p>
-
-<h2>
-<a id="wordpress-theme-integration" class="anchor" href="#wordpress-theme-integration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>WordPress theme integration</h2>
-
-<p>This is information intended for a theme developers (currently for <a href="https://www.webmandesign.eu">WebMan Design themes</a> only):</p>
-
-<ul>
-<li>The theme <strong>must</strong> declare support for the plugin with a <code>add_theme_support( 'webman-templates' );</code> code.</li>
-<li>The theme <strong>can</strong> declare support for global templates provided with the plugin (with a <code>add_theme_support( 'webman-templates-global' );</code> code). Otherwise only the theme specific templates are served.</li>
-<li>Template thumbnails (featured images) can be served locally from the plugin once you upload them to the <code>templates/THEME_SLUG/thumbs</code> directory. In that case the exported template files (the Beaver Builder <code>.dat</code> files) must not contain the full URL to the image, only the image file name (with possible relative folder path to the image). The best size for template thumbnails is <strong>256px wide</strong> (the height of the image is up to you).</li>
-</ul>
+<p>You can install the plugin directly via your WordPress dashboard navigating to <strong>Plugins &rarr; Add new</strong>, searching for <code>webman templates</code>. Then just press "Install" and subsequently also "Activate" button.</p>
 
 <h2>
 <a id="versioning-info" class="anchor" href="#versioning-info" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Versioning info</h2>
