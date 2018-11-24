@@ -4,8 +4,8 @@ Donate link:       https://www.webmandesign.eu/
 Author URI:        https://www.webmandesign.eu/
 Plugin URI:        https://www.webmandesign.eu/portfolio/webman-templates-wordpress-plugin/
 Requires at least: 4.5
-Tested up to:      4.8
-Stable tag:        2.2.2
+Tested up to:      4.9.8
+Stable tag:        2.2.3
 License:           GNU General Public License v3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Tags:              webman, beaver builder, templates, rows, page builder
@@ -64,6 +64,9 @@ Please see the [`changelog.md` file](https://github.com/webmandesign/webman-temp
 
 
 == Upgrade Notice ==
+
+= 2.2.3 =
+Fixing compatibility with current Beaver Builder (as of 2018/11/24).
 
 = 2.2.2 =
 Fixing PHP error introduced in version 2.2.1.

@@ -1,5 +1,17 @@
 # WebMan Templates Changelog
 
+## 2.2.3
+
+* **Fix**: Compatibility with current Beaver Builder (as of 2018/11/24)
+
+### Files changed:
+
+	changelog.md
+	readme.txt
+	webman-templates.php
+	includes/classes/class-webman-templates.php
+
+
 ## 2.2.2
 
 * **Fix**: PHP error introduced in version 2.2.1

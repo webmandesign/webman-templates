@@ -1,9 +1,9 @@
 <?php if ( ! defined( 'WPINC' ) ) exit;
 /**
- * Adding custom templates into Beaver Builder
+ * Adding custom templates into Beaver Builder.
  *
  * @since    1.0.0
- * @version  2.2.2
+ * @version  2.2.3
  *
  * Contents:
  *
@@ -31,10 +31,10 @@ class WebMan_Templates {
 
 
 		/**
-		 * Constructor
+		 * Constructor.
 		 *
 		 * @since    1.0.0
-		 * @version  2.2.2
+		 * @version  2.2.3
 		 */
 		private function __construct() {
 
@@ -46,7 +46,7 @@ class WebMan_Templates {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				self::$theme          = apply_filters( 'webman_templates/theme', get_template() );
 				self::$path_templates = trailingslashit( WMTEMPLATES_PATH . 'templates' );
@@ -62,7 +62,7 @@ class WebMan_Templates {
 
 					// Filters
 
-						add_filter( 'fl_builder_template_selector_data', __CLASS__ . '::thumbnail_src', 10, 2 );
+						add_filter( 'fl_builder_template_details', __CLASS__ . '::thumbnail_src', 10, 2 );
 
 		} // /__construct
 
@@ -159,7 +159,7 @@ class WebMan_Templates {
 	 */
 
 		/**
-		 * Template thumbnail source
+		 * Template thumbnail source.
 		 *
 		 * If you want to use local plugin template thumbnails, make sure
 		 * your Templates posts are organized into categories which slug
@@ -171,25 +171,35 @@ class WebMan_Templates {
 		 * Best thumbnail image size is 256 px wide, the height is up to you.
 		 *
 		 * @since    1.0.0
-		 * @version  2.2.0
+		 * @version  2.2.3
 		 *
-		 * @param  array  $template_data
-		 * @param  object $template
+		 * @param  array  $template_details
+		 * @param  string $template
 		 */
-		public static function thumbnail_src( $template_data, $template ) {
+		public static function thumbnail_src( $template_details, $template ) {
 
-			// Helper variables
+			// Requirements check
+
+				if ( ! isset( $template->type ) ) {
+					return $template_details;
+				}
+
+
+			// Variables
 
 				$categories = '';
-				if ( isset( $template_data['category'] ) ) {
-					$categories = implode( '|', array_keys( (array) $template_data['category'] ) );
+				if ( isset( $template_details['category'] ) ) {
+					$categories = implode( '|', array_keys( (array) $template_details['category'] ) );
 				}
 
 
 			// Processing
 
 				// Does our category slug contain `wm-` or `theme-`?
-				if ( false !== stripos( $categories, 'wm-' ) || false !== stripos( $categories, 'theme-' ) ) {
+				if (
+					false !== stripos( $categories, 'wm-' )
+					|| false !== stripos( $categories, 'theme-' )
+				) {
 
 					// Additional helper variables
 
@@ -207,7 +217,7 @@ class WebMan_Templates {
 
 						if ( $template->image ) {
 
-							$template_data['image'] = $url_base . 'thumbs/' . $template->image;
+							$template_details['image'] = $url_base . 'thumbs/' . $template->image;
 
 						} else {
 
@@ -215,7 +225,7 @@ class WebMan_Templates {
 							 * This image will not be displayed.
 							 * That's how Beaver Builder treats `blank.jpg` in its interface.
 							 */
-							$template_data['image'] = $url_base . 'thumbnail/blank.jpg';
+							$template_details['image'] = $url_base . 'thumbnail/blank.jpg';
 
 							/**
 							 * Or, use thumbnail named as template slug, if it exists.
@@ -225,7 +235,7 @@ class WebMan_Templates {
 									$image_file = 'thumbs/' . $template->slug . '.' . preg_replace( '/[^A-Za-z]/', '', $extension );
 
 									if ( file_exists( $path . $image_file ) ) {
-										$template_data['image'] = $url_base . $image_file;
+										$template_details['image'] = $url_base . $image_file;
 										break;
 									}
 								}
@@ -238,7 +248,7 @@ class WebMan_Templates {
 
 			// Output
 
-				return $template_data;
+				return $template_details;
 
 		} // /thumbnail_src
 
