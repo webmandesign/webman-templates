@@ -1,14 +1,16 @@
 === WebMan Templates ===
+
 Contributors:      webmandesign
-Donate link:       https://www.webmandesign.eu/
+Donate link:       https://www.webmandesign.eu/contact/#donation
 Author URI:        https://www.webmandesign.eu/
 Plugin URI:        https://www.webmandesign.eu/portfolio/webman-templates-wordpress-plugin/
-Requires at least: 4.5
-Tested up to:      4.9.8
+Requires at least: 6.0
+Tested up to:      6.7
+Requires PHP:      7.0
 Stable tag:        2.2.3
-License:           GNU General Public License v3
+License:           GPL-3.0-or-later
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
-Tags:              webman, beaver builder, templates, rows, page builder
+Tags:              beaver builder, templates, rows, page builder
 
 Collection of pre-designed row templates for Beaver Builder page builder.
 
